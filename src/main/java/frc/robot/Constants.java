@@ -25,6 +25,12 @@ public final class Constants {
         public static final double wheelBase = Units.inchesToMeters(24.5);
         public static final double wheelCircumference = chosenModule.wheelCircumference;
 
+        /* Intake Solenoid Constants */
+        public static final class IntakeSolenoidConstants {
+            public static final int kIntakeSolenoidModule = 0;
+            public static final int[] kIntakeSolenoidPorts = new int[] {0, 1};
+        }
+
         /* Swerve Kinematics 
          * No need to ever change this unless you are not doing a traditional rectangular/square 4 module swerve */
          public static final SwerveDriveKinematics swerveKinematics = new SwerveDriveKinematics(
