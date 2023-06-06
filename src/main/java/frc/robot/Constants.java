@@ -29,6 +29,8 @@ public final class Constants {
         public static final class IntakeSolenoidConstants {
             public static final int kIntakeSolenoidModule = 0;
             public static final int[] kIntakeSolenoidPorts = new int[] {0, 1};
+            public static final int kIntakeUpperMotorPort = 1;
+            public static final int kIntakeLowerMotorPort = 2;
         }
 
         /* Swerve Kinematics 

@@ -1,7 +1,11 @@
 package frc.robot.subsystems;
 
 import static edu.wpi.first.wpilibj.DoubleSolenoid.Value.kForward;
-import static edu.wpi.first.wpilibj.DoubleSolenoid.Value.kReverse;
+
+import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
+// import static edu.wpi.first.wpilibj.DoubleSolenoid.Value.kReverse;
 
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -12,14 +16,25 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Intake extends SubsystemBase {
+    private TalonSRX m_intakeUpperMotor = new TalonSRX(Constants.Swerve.IntakeSolenoidConstants.kIntakeUpperMotorPort);
+    private TalonSRX m_intakLowerMotor = new TalonSRX(Constants.Swerve.IntakeSolenoidConstants.kIntakeLowerMotorPort);
     private final DoubleSolenoid m_intakeSolenoid = new DoubleSolenoid(
         PneumaticsModuleType.CTREPCM, 
         Constants.Swerve.IntakeSolenoidConstants.kIntakeSolenoidPorts[0], 
         Constants.Swerve.IntakeSolenoidConstants.kIntakeSolenoidPorts[1]);
-
     /* Controlls Intake */
     public CommandBase intakeMovementCommand() {
+        m_intakLowerMotor.setInverted(true);
+        m_intakLowerMotor.follow(m_intakeUpperMotor);
         return this.runOnce(() -> m_intakeSolenoid.toggle());
+    }
+
+    public void toggleIntake() {
+        m_intakeSolenoid.toggle();
+    }
+
+    public void setIntakeSpeed(double speed) {
+        m_intakeUpperMotor.set(TalonSRXControlMode.Velocity, speed);
     }
 
     @Override
