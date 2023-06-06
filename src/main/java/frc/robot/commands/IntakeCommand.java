@@ -4,11 +4,11 @@ import frc.robot.subsystems.Intake;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class IntakeSpeedCommand extends CommandBase{
+public class IntakeCommand extends CommandBase{
     private double m_speed, m_timeout;
     private Intake m_intakeSubsystem;
     private Timer m_timer;
-    public IntakeSpeedCommand(Intake intakeSubsystem, double speed, double timeout) {
+    public IntakeCommand(Intake intakeSubsystem, double speed, double timeout) {
         this.m_speed = speed;
         this.m_intakeSubsystem = intakeSubsystem;
         this.m_timeout = timeout;

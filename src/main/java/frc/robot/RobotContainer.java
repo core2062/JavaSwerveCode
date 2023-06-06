@@ -32,12 +32,15 @@ public class RobotContainer {
     private final JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
     
     /* Openrator Buttons */
-    private final JoystickButton intakeControls = new JoystickButton(opJoystick, XboxController.Button.kA.value);
-    private final JoystickButton intakeSpeed = new JoystickButton(opJoystick, XboxController.Button.kB.value);
+    private final JoystickButton intakeSolenoid = new JoystickButton(opJoystick, XboxController.Button.kA.value);
+    private final JoystickButton intakeSpeedX = new JoystickButton(opJoystick, XboxController.Button.kX.value);
+    private final JoystickButton intakeSpeedY = new JoystickButton(opJoystick, XboxController.Button.kY.value);
+    private final JoystickButton intakeSpeedB = new JoystickButton(opJoystick, XboxController.Button.kB.value);
+    private final JoystickButton intakeSpeedIn = new JoystickButton(opJoystick, XboxController.Button.kRightBumper.value);
 
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
-    private final Intake m_IntakeMovement = new Intake();
+    private final Intake m_Intake = new Intake();
 
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -66,8 +69,11 @@ public class RobotContainer {
         /* Driver Buttons */
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
         /* Openrator Buttons */
-        intakeControls.onTrue(new InstantCommand(() -> m_IntakeMovement.intakeMovementCommand()));
-        intakeSpeed.onTrue(getAutonomousCommand());
+        intakeSolenoid.onTrue(new InstantCommand(() -> m_Intake.intakeMovementCommand()));
+        intakeSpeedX.onTrue(new InstantCommand(() -> m_Intake.setIntakeSpeed(0.75)));
+        intakeSpeedY.onTrue(new InstantCommand(() -> m_Intake.setIntakeSpeed(0.5)));
+        intakeSpeedB.onTrue(new InstantCommand(() -> m_Intake.setIntakeSpeed(0.25)));
+        intakeSpeedIn.onTrue(new InstantCommand(() -> m_Intake.setIntakeSpeed(-0.5)));
             
     }
 
