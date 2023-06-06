@@ -51,8 +51,10 @@ public class BalanceCommand extends CommandBase {
 
     @Override
     public void execute() {
-        double currAngle = s_Swerve.getAngle();
-        double motorSpeed = m_balancePIDController.calculate(currAngle);
+        double currPitch = s_Swerve.getPitch();
+        double currRoll = s_Swerve.getRoll();
+        double motorSpeedPitch = m_balancePIDController.calculate(currPitch);
+        double motorSpeedRoll = m_balancePIDController.calculate(currRoll);
 
         if (m_stage == 1)
         {
@@ -64,12 +66,19 @@ public class BalanceCommand extends CommandBase {
         }
         else if (m_stage == 2)
         {
-            if (motorSpeed>0) {
-                motorSpeed += 0.02;
+            if (motorSpeedRoll > 0) {
+                motorSpeedRoll += 0.02;
             } 
-            else if (motorSpeed < 0)
+            else if (motorSpeedRoll < 0)
             {
-                motorSpeed -= 0.02 ;
+                motorSpeedRoll -= 0.02 ;
+            }
+            else if (motorSpeedPitch > 0) {
+                motorSpeedPitch += 0.02;
+            } 
+            else if (motorSpeedPitch < 0)
+            {
+                motorSpeedPitch -= 0.02 ;
             }
             /* Drive */
             s_Swerve.drive(
