@@ -5,6 +5,8 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -15,6 +17,11 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  * project.
  */
 public class Robot extends TimedRobot {
+  private static final String kDefaultAuto = "Default";
+  private static final String kCustomAuto = "My Auto";
+  private String m_autoSelected;
+  private final SendableChooser<String> m_chooser = new SendableChooser<>();
+
   public static CTREConfigs ctreConfigs;
 
   private Command m_autonomousCommand;
@@ -27,6 +34,10 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+    m_chooser.setDefaultOption("Move Auto", kDefaultAuto);
+    m_chooser.addOption("Whole Shabang", kCustomAuto);
+    SmartDashboard.putData("Auto choices", m_chooser);
+    
     ctreConfigs = new CTREConfigs();
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
@@ -59,7 +70,18 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    int auton;
+    m_autoSelected = m_chooser.getSelected();
+    switch (m_autoSelected) {
+      case kCustomAuto:
+        auton = 0;
+        break;
+      case kDefaultAuto:
+      default:
+        auton = 10;
+        break;
+    }
+    m_autonomousCommand = m_robotContainer.getAutonomousCommand(auton);
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
