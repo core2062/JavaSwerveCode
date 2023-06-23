@@ -23,7 +23,7 @@ public class Robot extends TimedRobot {
   private static final String kCustomAuto = "My Auto";
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
-
+  Compressor phCompressor = new Compressor(3, PneumaticsModuleType.REVPH);
   public static CTREConfigs ctreConfigs;
 
   private Command m_autonomousCommand;
@@ -104,10 +104,9 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-    try (Compressor phCompressor = new Compressor(PneumaticsModuleType.REVPH)) {
-      phCompressor.enableDigital();
-      System.out.println("enabling compressor");
-    }
+    phCompressor.enableDigital();
+    System.out.println("enabling compressor");
+    
   }
 
   /** This function is called periodically during operator control. */

@@ -70,7 +70,7 @@ public class RobotContainer {
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
         /* Openrator Buttons */
         
-        intakeSolenoid.onTrue(new InstantCommand(() -> m_Intake.intakeMovementCommand()));
+        intakeSolenoid.onTrue(new InstantCommand(() -> m_Intake.toggleIntake()));
         intakeSpeedX.onTrue(new InstantCommand(() -> m_Intake.setIntakeSpeed(0.25)));
         intakeSpeedY.onTrue(new InstantCommand(() -> m_Intake.setIntakeSpeed(0.5)));
         intakeSpeedB.onTrue(new InstantCommand(() -> m_Intake.setIntakeSpeed(0.75)));
