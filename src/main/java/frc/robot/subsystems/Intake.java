@@ -17,15 +17,14 @@ import frc.robot.Constants;
 
 public class Intake extends SubsystemBase {
     private TalonSRX m_intakeUpperMotor = new TalonSRX(Constants.Swerve.IntakeSolenoidConstants.kIntakeUpperMotorPort);
-    private TalonSRX m_intakLowerMotor = new TalonSRX(Constants.Swerve.IntakeSolenoidConstants.kIntakeLowerMotorPort);
+    private TalonSRX m_intakeLowerMotor = new TalonSRX(Constants.Swerve.IntakeSolenoidConstants.kIntakeLowerMotorPort);
     private final DoubleSolenoid m_intakeSolenoid = new DoubleSolenoid(
-        PneumaticsModuleType.CTREPCM, 
+        PneumaticsModuleType.REVPH, 
         Constants.Swerve.IntakeSolenoidConstants.kIntakeSolenoidPorts[0], 
         Constants.Swerve.IntakeSolenoidConstants.kIntakeSolenoidPorts[1]);
     /* Controlls Intake */
     public CommandBase intakeMovementCommand() {
-        m_intakLowerMotor.setInverted(true);
-        m_intakLowerMotor.follow(m_intakeUpperMotor);
+        System.out.println("command base");
         return this.runOnce(() -> m_intakeSolenoid.toggle());
     }
 
@@ -34,7 +33,9 @@ public class Intake extends SubsystemBase {
     }
 
     public void setIntakeSpeed(double speed) {
-        m_intakeUpperMotor.set(TalonSRXControlMode.Velocity, speed);
+        m_intakeUpperMotor.set(TalonSRXControlMode.PercentOutput, -speed);
+        m_intakeLowerMotor.set(TalonSRXControlMode.PercentOutput, speed);
+        System.out.println("setting intake speed");
     }
 
     @Override

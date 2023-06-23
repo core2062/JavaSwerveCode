@@ -13,7 +13,6 @@ public class IntakeCommand extends CommandBase{
         this.m_intakeSubsystem = intakeSubsystem;
         this.m_timeout = timeout;
         addRequirements(intakeSubsystem);
-
     }
 
     public void intialize() {
