@@ -20,7 +20,8 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  */
 public class Robot extends TimedRobot {
   private static final String kDefaultAuto = "Default";
-  private static final String kCustomAuto = "My Auto";
+  private static final String kCustomAuto = "Custom Auto";
+  private static final String kCustomAuto2 = "Basic Auto";
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
   Compressor phCompressor = new Compressor(3, PneumaticsModuleType.REVPH);
@@ -36,8 +37,9 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    m_chooser.setDefaultOption("Move Auto", kDefaultAuto);
-    m_chooser.addOption("Whole Shabang", kCustomAuto);
+    m_chooser.setDefaultOption("Do Nothing", kDefaultAuto);
+    m_chooser.addOption("Sample Auto", kCustomAuto2);
+    m_chooser.addOption("Basic Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
     
     ctreConfigs = new CTREConfigs();
@@ -72,14 +74,23 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
+    System.out.println("Autos intilized");
     int auton;
     m_autoSelected = m_chooser.getSelected();
     switch (m_autoSelected) {
+      case kDefaultAuto:
+        auton = 100;
+        System.out.println("Autos Default");
       case kCustomAuto:
         auton = 0;
+        System.out.println("Autos one");
         break;
-      case kDefaultAuto:
+      case kCustomAuto2:
+        auton = 1;
+        System.out.println("Autos two");
+        break;
       default:
+      System.out.println("default auto Movement");
         auton = 10;
         break;
     }

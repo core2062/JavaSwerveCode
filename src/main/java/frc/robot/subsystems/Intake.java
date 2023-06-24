@@ -19,17 +19,19 @@ public class Intake extends SubsystemBase {
     private TalonSRX m_intakeUpperMotor = new TalonSRX(Constants.Swerve.IntakeSolenoidConstants.kIntakeUpperMotorPort);
     private TalonSRX m_intakeLowerMotor = new TalonSRX(Constants.Swerve.IntakeSolenoidConstants.kIntakeLowerMotorPort);
     private final DoubleSolenoid m_intakeSolenoid = new DoubleSolenoid(
-        PneumaticsModuleType.REVPH, 
+        3, PneumaticsModuleType.REVPH, 
         Constants.Swerve.IntakeSolenoidConstants.kIntakeSolenoidPorts[0], 
         Constants.Swerve.IntakeSolenoidConstants.kIntakeSolenoidPorts[1]);
     /* Controlls Intake */
     public CommandBase intakeMovementCommand() {
+        m_intakeSolenoid.set(kForward);
         System.out.println("command base");
-        return this.runOnce(() -> m_intakeSolenoid.toggle());
+        return this.runOnce(() -> m_intakeSolenoid.set(kForward));
     }
 
     public void toggleIntake() {
         m_intakeSolenoid.toggle();
+        // m_intakeSolenoid.set(kForward);
     }
 
     public void setIntakeSpeed(double speed) {

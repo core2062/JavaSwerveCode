@@ -55,6 +55,7 @@ public class RobotContainer {
             )
         );
         s_Swerve.gyro.reset();
+        m_Intake.intakeMovementCommand();
         // Configure the button bindings
         configureButtonBindings();
     }

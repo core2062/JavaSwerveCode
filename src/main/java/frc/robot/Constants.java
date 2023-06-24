@@ -75,8 +75,8 @@ public final class Constants {
         public static final double angleKF = chosenModule.angleKF;
 
         /* Drive Motor PID Values */
-        // public static final double driveKP = 0.05; //TODO: This must be tuned to specific robot
-        public static final double driveKP = 2.9656;
+        public static final double driveKP = 0.05; //TODO: This must be tuned to specific robot
+        // public static final double driveKP = 2.9656;
         public static final double driveKI = 0.0;
         public static final double driveKD = 0.0;
         public static final double driveKF = 0.0;
