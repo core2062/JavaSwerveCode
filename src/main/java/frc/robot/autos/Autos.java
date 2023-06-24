@@ -19,7 +19,7 @@ import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
-import edu.wpi.first.wpilibj2.command.Command;
+// import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
@@ -27,11 +27,11 @@ import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 public class Autos extends SequentialCommandGroup {    
     
     
-    public Autos(int cases, Swerve s_Swerve){
+    public Autos(int cases, Swerve s_Swerve, Intake m_intake){
         System.out.printf("autos selection: %d\n", cases);
         switch (cases) {
             case 0:
-            movementAuto(s_Swerve);
+            movementAuto(s_Swerve, m_intake);
             break;
             case 1:
             sampleAuto(s_Swerve);
@@ -129,7 +129,7 @@ public void doNothingAuto(Swerve s_Swerve) {
                     }
                     
                     
-        public void movementAuto(Swerve s_Swerve) {
+        public void movementAuto(Swerve s_Swerve, Intake m_intake) {
         System.out.println("move auto");
 
         
@@ -164,7 +164,8 @@ public void doNothingAuto(Swerve s_Swerve) {
                 
                 addCommands(
                     new InstantCommand(() -> s_Swerve.resetOdometry(Trajectory.getInitialPose())),
-                swerveControllerCommand
+                    new IntakeCommand(m_intake, 0.75, 1.0),
+            swerveControllerCommand
             );
         }
         

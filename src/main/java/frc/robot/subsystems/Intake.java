@@ -37,7 +37,7 @@ public class Intake extends SubsystemBase {
     public void setIntakeSpeed(double speed) {
         m_intakeUpperMotor.set(TalonSRXControlMode.PercentOutput, -speed);
         m_intakeLowerMotor.set(TalonSRXControlMode.PercentOutput, speed);
-        System.out.println("setting intake speed");
+        // System.out.println("setting intake speed");
     }
 
     @Override
