@@ -72,7 +72,7 @@ public class RobotContainer {
         /* Openrator Buttons */
         
         intakeSolenoid.onTrue(new InstantCommand(() -> m_Intake.toggleIntake()));
-        intakeSpeedX.onTrue(new InstantCommand(() -> m_Intake.setIntakeSpeed(0.25)));
+        intakeSpeedX.onTrue(new InstantCommand(() -> m_Intake.setIntakeSpeed(0.35)));
         intakeSpeedY.onTrue(new InstantCommand(() -> m_Intake.setIntakeSpeed(0.75)));
         intakeSpeedB.onTrue(new InstantCommand(() -> m_Intake.setIntakeSpeed(0.9)));
         intakeSpeedIn.onTrue(new InstantCommand(() -> m_Intake.setIntakeSpeed(-0.5)));
