@@ -73,8 +73,8 @@ public class RobotContainer {
         
         intakeSolenoid.onTrue(new InstantCommand(() -> m_Intake.toggleIntake()));
         intakeSpeedX.onTrue(new InstantCommand(() -> m_Intake.setIntakeSpeed(0.25)));
-        intakeSpeedY.onTrue(new InstantCommand(() -> m_Intake.setIntakeSpeed(0.5)));
-        intakeSpeedB.onTrue(new InstantCommand(() -> m_Intake.setIntakeSpeed(0.75)));
+        intakeSpeedY.onTrue(new InstantCommand(() -> m_Intake.setIntakeSpeed(0.75)));
+        intakeSpeedB.onTrue(new InstantCommand(() -> m_Intake.setIntakeSpeed(0.9)));
         intakeSpeedIn.onTrue(new InstantCommand(() -> m_Intake.setIntakeSpeed(-0.5)));
         intakeSpeedX.or(intakeSpeedY)
                     .or(intakeSpeedB)
