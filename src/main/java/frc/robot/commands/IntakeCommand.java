@@ -22,11 +22,11 @@ public class IntakeCommand extends CommandBase{
 
     @Override
     public void execute() {
-        m_intakeSubsystem.setIntakeSpeed(m_speed);
+        m_intakeSubsystem.setIntakeSpeed(m_speed, m_speed);
     }
     
     public void end(boolean interuppted) {
-        m_intakeSubsystem.setIntakeSpeed(0);
+        m_intakeSubsystem.setIntakeSpeed(0, 0);
     }
     
     @Override

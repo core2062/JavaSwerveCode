@@ -72,20 +72,21 @@ public class RobotContainer {
         /* Openrator Buttons */
         
         intakeSolenoid.onTrue(new InstantCommand(() -> m_Intake.toggleIntake()));
-        intakeSpeedX.onTrue(new InstantCommand(() -> m_Intake.setIntakeSpeed(0.35)));
-        intakeSpeedY.onTrue(new InstantCommand(() -> m_Intake.setIntakeSpeed(0.75)));
-        intakeSpeedB.onTrue(new InstantCommand(() -> m_Intake.setIntakeSpeed(0.9)));
-        intakeSpeedIn.onTrue(new InstantCommand(() -> m_Intake.setIntakeSpeed(-0.5)));
+        intakeSpeedX.onTrue(new InstantCommand(() -> m_Intake.setIntakeSpeed(0.35, 0.35)));
+        intakeSpeedY.onTrue(new InstantCommand(() -> m_Intake.setIntakeSpeed(0.75, 0.75)));
+        intakeSpeedB.onTrue(new InstantCommand(() -> m_Intake.setIntakeSpeed(0.60, 1.0)));
+        intakeSpeedIn.onTrue(new InstantCommand(() -> m_Intake.setIntakeSpeed(-0.5, -0.5)));
         intakeSpeedX.or(intakeSpeedY)
                     .or(intakeSpeedB)
                     .or(intakeSpeedIn)
-                    .onFalse(new InstantCommand(() -> m_Intake.setIntakeSpeed(0)));    
+                    .onFalse(new InstantCommand(() -> m_Intake.setIntakeSpeed(0, 0)));    
     }
 
     /**
      * Use this to pass the autonomous command to the main {@link Robot} class.
      *
      * @return the command to run in autonomous
+     * 
      */
     public Command getAutonomousCommand(int auton) {
         // An ExampleCommand will run in autonomous
