@@ -169,7 +169,8 @@ public void doNothingAuto(Swerve s_Swerve) {
             );
         }
         
-        public void wholeShabangAuto(Swerve s_Swerve) {
+        public void wholeShabangCenterAuto(Swerve s_Swerve, Intake m_intake) { 
+            //started work for pathweaver, have to change paths still
             System.out.println("whole Shabang auto");
             //movement part 1
             String trajectoryJSON = "PathWeaver/Paths/ScoreMove.wpilib.json";
@@ -233,8 +234,11 @@ public void doNothingAuto(Swerve s_Swerve) {
 
         addCommands(
             new InstantCommand(() -> s_Swerve.resetOdometry(Trajectory.getInitialPose())),
-            swerveControllerCommand,
-            swerveControllerCommand2
+            new IntakeCommand(m_intake, 0.75, 1.0),
+            swerveControllerCommand, 
+            swerveControllerCommand2,
+            new BalanceCommand(s_Swerve, 1),
+            new BalanceCommand(s_Swerve, 2)
         );
     }
 }
