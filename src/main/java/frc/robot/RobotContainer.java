@@ -30,6 +30,8 @@ public class RobotContainer {
     /* Driver Buttons */
     private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kY.value);
     private final JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
+    private final JoystickButton balanceStageOne = new JoystickButton(driver, XboxController.Button.kA.value); 
+    private final JoystickButton balanceStageTwo = new JoystickButton(driver, XboxController.Button.kB.value); 
     
     /* Openrator Buttons */
     private final JoystickButton intakeSolenoid = new JoystickButton(opJoystick, XboxController.Button.kA.value);
@@ -69,8 +71,9 @@ public class RobotContainer {
     private void configureButtonBindings() {
         /* Driver Buttons */
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
+        balanceStageOne.onTrue(new BalanceCommand(s_Swerve, 1));
+        balanceStageTwo.onTrue(new BalanceCommand(s_Swerve, 2));
         /* Openrator Buttons */
-        
         intakeSolenoid.onTrue(new InstantCommand(() -> m_Intake.toggleIntake()));
         intakeSpeedX.onTrue(new InstantCommand(() -> m_Intake.setIntakeSpeed(0.35, 0.35)));
         intakeSpeedY.onTrue(new InstantCommand(() -> m_Intake.setIntakeSpeed(0.75, 0.75)));
@@ -80,6 +83,7 @@ public class RobotContainer {
                     .or(intakeSpeedB)
                     .or(intakeSpeedIn)
                     .onFalse(new InstantCommand(() -> m_Intake.setIntakeSpeed(0, 0)));    
+        
     }
 
     /**

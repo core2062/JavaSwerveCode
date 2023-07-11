@@ -112,6 +112,14 @@ public class Swerve extends SubsystemBase {
         }
     }
 
+    public double getRoll(){
+        return gyro.getRoll();
+    }
+    
+    public double getPitch() {
+        return gyro.getPitch();
+    }
+
     @Override
     public void periodic(){
         swerveOdometry.update(getYaw(), getModulePositions());  
