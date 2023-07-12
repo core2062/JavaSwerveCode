@@ -59,10 +59,17 @@ public class BalanceCommand extends CommandBase {
         if (m_stage == 1)
         {
             /* Drive */
-            s_Swerve.drive(
-                new Translation2d(0.75, 0.0).times(Constants.Swerve.maxSpeed), 0.0, 
-                true, true
-            );
+            if (motorSpeedRoll < 0) {
+                s_Swerve.drive(
+                new Translation2d(-0.2, 0.0).times(Constants.Swerve.maxSpeed), 0.0, 
+                true, true);
+            } else if (motorSpeedRoll > 0) {
+                s_Swerve.drive(
+                new Translation2d(0.2, 0.0).times(Constants.Swerve.maxSpeed), 0.0, 
+                true, true);
+            }
+            
+            
         }
         else if (m_stage == 2)
         {
@@ -81,10 +88,15 @@ public class BalanceCommand extends CommandBase {
                 motorSpeedPitch -= 0.02 ;
             }
             /* Drive */
-            s_Swerve.drive(
-                new Translation2d(0.6, 0.0).times(Constants.Swerve.maxSpeed), 0.0, 
-                true, true
-            );
+            if (motorSpeedRoll < 0) {
+                s_Swerve.drive(
+                new Translation2d(-0.1, 0.0).times(Constants.Swerve.maxSpeed), 0.0, 
+                true, true);
+            } else if (motorSpeedRoll > 0) {
+                s_Swerve.drive(
+                new Translation2d(0.1, 0.0).times(Constants.Swerve.maxSpeed), 0.0, 
+                true, true);
+            }
         }
     }
 
