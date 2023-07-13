@@ -93,6 +93,10 @@ public final class Constants {
         /** Radians per Second */
         public static final double maxAngularVelocity = 3.5; //TODO: This must be tuned to specific robot
 
+        /*Auto Balance Speed Values */
+        /** Meters per Second */
+        public static final double autoBalanceMaxSpeed = 1.0; //TODO: This must be tuned to specific robot
+
         /* Neutral Modes */
         public static final NeutralMode angleNeutralMode = NeutralMode.Coast;
         public static final NeutralMode driveNeutralMode = NeutralMode.Brake;

@@ -173,7 +173,7 @@ public void doNothingAuto(Swerve s_Swerve) {
             //started work for pathweaver, have to change paths still
             System.out.println("whole Shabang auto");
             //movement part 1
-            String trajectoryJSON = "PathWeaver/Paths/ScoreMove.wpilib.json";
+            String trajectoryJSON = "PathWeaver/Paths/ScoreMove.wpilib.json"; //"PathWeaver/Paths/WholeShabangCenterOne.wpilib.json";
             Trajectory trajectory = new Trajectory();
             
             try {
@@ -203,7 +203,7 @@ public void doNothingAuto(Swerve s_Swerve) {
                 
                 
                 //movement part 2
-                String trajectoryJSON2 = "PathWeaver/Paths/ScoreMove.wpilib.json";
+                String trajectoryJSON2 = "PathWeaver/Paths/ScoreMove.wpilib.json"; //"PathWeaver/Paths/WholeShabangCenterTwo.wpilib.json";
                 Trajectory trajectory2 = new Trajectory();
                 
             try {

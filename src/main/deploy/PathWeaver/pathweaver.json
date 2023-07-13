@@ -5,5 +5,5 @@
   "maxAcceleration": 1.0,
   "trackWidth": 0.6223,
   "gameName": "Charged Up",
-  "outputDir": "output"
+  "outputDir": "../src/main/deploy/PathWeaver/output"
 }

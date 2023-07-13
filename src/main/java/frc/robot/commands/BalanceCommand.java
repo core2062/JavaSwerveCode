@@ -61,11 +61,11 @@ public class BalanceCommand extends CommandBase {
             /* Drive */
             if (motorSpeedRoll < 0) {
                 s_Swerve.drive(
-                new Translation2d(-0.2, 0.0).times(Constants.Swerve.maxSpeed), 0.0, 
+                new Translation2d(-0.2, 0.0).times(Constants.Swerve.autoBalanceMaxSpeed), 0.0, 
                 true, true);
             } else if (motorSpeedRoll > 0) {
                 s_Swerve.drive(
-                new Translation2d(0.2, 0.0).times(Constants.Swerve.maxSpeed), 0.0, 
+                new Translation2d(0.2, 0.0).times(Constants.Swerve.autoBalanceMaxSpeed), 0.0, 
                 true, true);
             }
             
@@ -90,11 +90,11 @@ public class BalanceCommand extends CommandBase {
             /* Drive */
             if (motorSpeedRoll < 0) {
                 s_Swerve.drive(
-                new Translation2d(-0.1, 0.0).times(Constants.Swerve.maxSpeed), 0.0, 
+                new Translation2d(-0.1, 0.0).times(Constants.Swerve.autoBalanceMaxSpeed), 0.0, 
                 true, true);
             } else if (motorSpeedRoll > 0) {
                 s_Swerve.drive(
-                new Translation2d(0.1, 0.0).times(Constants.Swerve.maxSpeed), 0.0, 
+                new Translation2d(0.1, 0.0).times(Constants.Swerve.autoBalanceMaxSpeed), 0.0, 
                 true, true);
             }
         }
