@@ -59,13 +59,16 @@ public class BalanceCommand extends CommandBase {
         if (m_stage == 1)
         {
             /* Drive */
+            // System.out.println("Stage One");
             if (motorSpeedRoll < 0) {
+                // System.out.println("Stage One");
                 s_Swerve.drive(
-                new Translation2d(-0.2, 0.0).times(Constants.Swerve.autoBalanceMaxSpeed), 0.0, 
+                new Translation2d(-0.45, 0.0).times(Constants.Swerve.autoBalanceMaxSpeed), 0.0, 
                 true, true);
-            } else if (motorSpeedRoll > 0) {
+            } else if (motorSpeedRoll > 0.6) {
+                // System.out.println("Stage One");
                 s_Swerve.drive(
-                new Translation2d(0.2, 0.0).times(Constants.Swerve.autoBalanceMaxSpeed), 0.0, 
+                new Translation2d(0.45, 0.0).times(Constants.Swerve.autoBalanceMaxSpeed), 0.0, 
                 true, true);
             }
             
@@ -89,12 +92,14 @@ public class BalanceCommand extends CommandBase {
             }
             /* Drive */
             if (motorSpeedRoll < 0) {
+                System.out.println("Stage Two");
                 s_Swerve.drive(
-                new Translation2d(-0.1, 0.0).times(Constants.Swerve.autoBalanceMaxSpeed), 0.0, 
+                new Translation2d(-0.2, 0.0).times(Constants.Swerve.autoBalanceMaxSpeed), 0.0, 
                 true, true);
             } else if (motorSpeedRoll > 0) {
+                System.out.println("Stage Two");
                 s_Swerve.drive(
-                new Translation2d(0.1, 0.0).times(Constants.Swerve.autoBalanceMaxSpeed), 0.0, 
+                new Translation2d(0.2, 0.0).times(Constants.Swerve.autoBalanceMaxSpeed), 0.0, 
                 true, true);
             }
         }

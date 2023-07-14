@@ -20,8 +20,9 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  */
 public class Robot extends TimedRobot {
   private static final String kDefaultAuto = "Default";
-  private static final String kCustomAuto = "Custom Auto";
-  private static final String kCustomAuto2 = "Basic Auto";
+  private static final String kMoveAuto = "Move Auto";
+  private static final String kSampleAuto = "Basic Auto";
+  private static final String kWholeShabangCenterAuto = "Whole Shabang Center Auto";
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
   Compressor phCompressor = new Compressor(3, PneumaticsModuleType.REVPH);
@@ -38,8 +39,9 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     m_chooser.setDefaultOption("Do Nothing", kDefaultAuto);
-    m_chooser.addOption("Sample Auto", kCustomAuto2);
-    m_chooser.addOption("Basic Auto", kCustomAuto);
+    m_chooser.addOption("Sample Auto", kSampleAuto);
+    m_chooser.addOption("Basic Auto", kMoveAuto);
+    m_chooser.addOption("Whole Shabang Center Auto", kWholeShabangCenterAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
     
     ctreConfigs = new CTREConfigs();
@@ -81,16 +83,21 @@ public class Robot extends TimedRobot {
       case kDefaultAuto:
         auton = 100;
         System.out.println("Autos Default");
-      case kCustomAuto:
-        auton = 0;
-        System.out.println("Autos one");
         break;
-      case kCustomAuto2:
+      case kMoveAuto:
+        auton = 0;
+        System.out.println("Movement");
+        break;
+      case kSampleAuto:
         auton = 1;
-        System.out.println("Autos two");
+        System.out.println("Sample");
+        break;
+      case kWholeShabangCenterAuto:
+        auton = 2;
+        System.out.println("Whole Shabang");
         break;
       default:
-      System.out.println("default auto Movement");
+        System.out.println("default auto Movement");
         auton = 10;
         break;
     }

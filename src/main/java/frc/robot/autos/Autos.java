@@ -37,65 +37,26 @@ public class Autos extends SequentialCommandGroup {
             sampleAuto(s_Swerve);
             break;
             case 2:
-            // wholeShabangAuto(s_Swerve);
+            wholeShabangCenterAuto(s_Swerve, m_intake);
             break;
         default:
-        doNothingAuto(s_Swerve);
+            doNothingAuto(s_Swerve);
         break;
     }
 }
 
-public void doNothingAuto(Swerve s_Swerve) {
+public void doNothingAuto(Swerve s_Swerve) {}
+                
+                
+public void sampleAuto(Swerve s_Swerve) {
     TrajectoryConfig config =
-    new TrajectoryConfig(
+        new TrajectoryConfig(
         Constants.AutoConstants.kMaxSpeedMetersPerSecond,
         Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared)
         .setKinematics(Constants.Swerve.swerveKinematics);
-        
-        // An example trajectory to follow.  All units in meters.
-        Trajectory exampleTrajectory =
-            TrajectoryGenerator.generateTrajectory(
-                // Start at the origin facing the +X direction
-                new Pose2d(0, 0, new Rotation2d(0)),
-                // Pass through these two interior waypoints, making an 's' curve path
-                List.of(new Translation2d(0, 0), new Translation2d(0, 0)),
-                // End 3 meters straight ahead of where we started, facing forward
-                new Pose2d(0, 0, new Rotation2d(0)),
-                config);
-                
-                var thetaController =
-                new ProfiledPIDController(
-                    Constants.AutoConstants.kPThetaController, 0, 0, Constants.AutoConstants.kThetaControllerConstraints);
-                    thetaController.enableContinuousInput(-Math.PI, Math.PI);
-                    
-                    SwerveControllerCommand swerveControllerCommand =
-                    new SwerveControllerCommand(
-                        exampleTrajectory,
-                s_Swerve::getPose,
-                Constants.Swerve.swerveKinematics,
-                new PIDController(Constants.AutoConstants.kPXController, 0, 0),
-                new PIDController(Constants.AutoConstants.kPYController, 0, 0),
-                thetaController,
-                s_Swerve::setModuleStates,
-                s_Swerve);
-                
 
-                addCommands(
-                    new InstantCommand(() -> s_Swerve.resetOdometry(exampleTrajectory.getInitialPose())),
-                    swerveControllerCommand
-                    );
-                }
-                
-                
-                public void sampleAuto(Swerve s_Swerve) {
-                    TrajectoryConfig config =
-                    new TrajectoryConfig(
-                        Constants.AutoConstants.kMaxSpeedMetersPerSecond,
-                        Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared)
-                        .setKinematics(Constants.Swerve.swerveKinematics);
-
-        // An example trajectory to follow.  All units in meters.
-        Trajectory exampleTrajectory =
+    // An example trajectory to follow.  All units in meters.
+    Trajectory exampleTrajectory =
         TrajectoryGenerator.generateTrajectory(
             // Start at the origin facing the +X direction
             new Pose2d(0, 0, new Rotation2d(0)),
@@ -133,7 +94,7 @@ public void doNothingAuto(Swerve s_Swerve) {
         System.out.println("move auto");
 
         
-        String trajectoryJSON = "PathWeaver/Paths/ScoreMove.wpilib.json";
+        String trajectoryJSON = "PathWeaver/output/ScoreMove.wpilib.json";
         Trajectory trajectory = new Trajectory();
         
         try {
@@ -170,10 +131,10 @@ public void doNothingAuto(Swerve s_Swerve) {
         }
         
         public void wholeShabangCenterAuto(Swerve s_Swerve, Intake m_intake) { 
-            //started work for pathweaver, have to change paths still
+            //started work for pathweaver, have to change output still
             System.out.println("whole Shabang auto");
             //movement part 1
-            String trajectoryJSON = "PathWeaver/Paths/ScoreMove.wpilib.json"; //"PathWeaver/Paths/WholeShabangCenterOne.wpilib.json";
+            String trajectoryJSON = "PathWeaver/output/WholeShabangCenterOne.wpilib.json";
             Trajectory trajectory = new Trajectory();
             
             try {
@@ -203,7 +164,7 @@ public void doNothingAuto(Swerve s_Swerve) {
                 
                 
                 //movement part 2
-                String trajectoryJSON2 = "PathWeaver/Paths/ScoreMove.wpilib.json"; //"PathWeaver/Paths/WholeShabangCenterTwo.wpilib.json";
+                String trajectoryJSON2 = "PathWeaver/output/WholeShabangCenterTwo.wpilib.json"; 
                 Trajectory trajectory2 = new Trajectory();
                 
             try {
@@ -236,6 +197,8 @@ public void doNothingAuto(Swerve s_Swerve) {
             new InstantCommand(() -> s_Swerve.resetOdometry(Trajectory.getInitialPose())),
             new IntakeCommand(m_intake, 0.75, 1.0),
             swerveControllerCommand, 
+            new DelayCommand(1),
+            new InstantCommand(() -> s_Swerve.resetOdometry(Trajectory2.getInitialPose())),
             swerveControllerCommand2,
             new BalanceCommand(s_Swerve, 1),
             new BalanceCommand(s_Swerve, 2)
