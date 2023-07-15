@@ -75,7 +75,7 @@ public class RobotContainer {
         balanceStageTwo.onTrue(new BalanceCommand(s_Swerve, 2));
         /* Openrator Buttons */
         intakeSolenoid.onTrue(new InstantCommand(() -> m_Intake.toggleIntake()));
-        intakeSpeedX.onTrue(new InstantCommand(() -> m_Intake.setIntakeSpeed(0.35, 0.35)));
+        intakeSpeedX.onTrue(new InstantCommand(() -> m_Intake.setIntakeSpeed(0.50, 0.35)));
         intakeSpeedY.onTrue(new InstantCommand(() -> m_Intake.setIntakeSpeed(0.75, 0.75)));
         intakeSpeedB.onTrue(new InstantCommand(() -> m_Intake.setIntakeSpeed(0.85, 1.0)));
         intakeSpeedIn.onTrue(new InstantCommand(() -> m_Intake.setIntakeSpeed(-0.5, -0.5)));
