@@ -94,7 +94,7 @@ public void sampleAuto(Swerve s_Swerve) {
         System.out.println("move auto");
 
         
-        String trajectoryJSON = "PathWeaver/output/ScoreMove.wpilib.json";
+        String trajectoryJSON = "PathWeaver/output/WholeShabangCenterOne.wpilib.json";
         Trajectory trajectory = new Trajectory();
         
         try {
@@ -197,7 +197,7 @@ public void sampleAuto(Swerve s_Swerve) {
             new InstantCommand(() -> s_Swerve.resetOdometry(Trajectory.getInitialPose())),
             new IntakeCommand(m_intake, 0.75, 1.0),
             swerveControllerCommand, 
-            new DelayCommand(1),
+            new DelayCommand(.5),
             new InstantCommand(() -> s_Swerve.resetOdometry(Trajectory2.getInitialPose())),
             swerveControllerCommand2,
             new BalanceCommand(s_Swerve, 1),
