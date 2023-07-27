@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import frc.robot.Constants;
+
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -24,7 +26,10 @@ public class Robot extends TimedRobot {
   private static final String kSampleAuto = "Basic Auto";
   private static final String kWholeShabangCenterAuto = "Whole Shabang Center Auto";
   private String m_autoSelected;
+  private static final String compSpeed = "Comp Motor Speed";
+  private static final String demoSpeed = "Demo Motor Speed";
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
+  private final SendableChooser<String> m_chooser2 = new SendableChooser<>();
   Compressor phCompressor = new Compressor(3, PneumaticsModuleType.REVPH);
   public static CTREConfigs ctreConfigs;
 
@@ -43,11 +48,26 @@ public class Robot extends TimedRobot {
     m_chooser.addOption("Basic Auto", kMoveAuto);
     m_chooser.addOption("Whole Shabang Center Auto", kWholeShabangCenterAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
+
+    m_chooser2.setDefaultOption("Set Comp Speed", compSpeed);
+    m_chooser2.addOption("Set Demo Speed", demoSpeed);
     
     ctreConfigs = new CTREConfigs();
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+
+    m_autoSelected = m_chooser2.getSelected();
+    switch (m_autoSelected) {
+      case compSpeed:
+        Constants.Swerve.maxSpeed = 3.5;
+        Constants.Swerve.maxAngularVelocity = 3.5;
+        break;
+      case demoSpeed:
+        Constants.Swerve.maxSpeed = 0.5;
+        Constants.Swerve.maxAngularVelocity = 0.5;
+        break;
+    }
   }
 
   /**
