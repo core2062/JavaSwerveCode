@@ -19,7 +19,6 @@ import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
-// import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
@@ -45,9 +44,134 @@ public class Autos extends SequentialCommandGroup {
     }
 }
 
+
+
+
 public void doNothingAuto(Swerve s_Swerve) {}
                 
+     
+
+
+
+public void movementAuto(Swerve s_Swerve, Intake m_intake) {
+    System.out.println("move auto");  
+
+    String trajectoryJSON = "PathWeaver/output/WholeShabangCenterOne.wpilib.json";
+    Trajectory trajectory = new Trajectory(); 
+    try {
+        Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
+        trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+        System.out.println("Path " + trajectoryPath);
+    } catch (IOException ex) {
+        DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
+        };
+    // An example trajectory to follow.  All units in meters.
+    Trajectory Trajectory = trajectory;
+    
+    var thetaController =
+    new ProfiledPIDController(Constants.AutoConstants.kPThetaController, 0, 0, Constants.AutoConstants.kThetaControllerConstraints);
+    thetaController.enableContinuousInput(-Math.PI, Math.PI);
+    
+    SwerveControllerCommand swerveControllerCommand =
+    new SwerveControllerCommand(
+        Trajectory,
+        s_Swerve::getPose,
+        Constants.Swerve.swerveKinematics,
+        new PIDController(Constants.AutoConstants.kPXController, 0, 0),
+        new PIDController(Constants.AutoConstants.kPYController, 0, 0),
+        thetaController,
+        s_Swerve::setModuleStates,
+        s_Swerve
+    );
+        
+    addCommands(
+        new InstantCommand(() -> s_Swerve.resetOdometry(Trajectory.getInitialPose())),
+        new IntakeCommand(m_intake, 0.75, 1.0),
+        swerveControllerCommand
+    );
+}
+      
+
+
+
+
+
+
+
+
+public void wholeShabangCenterAuto(Swerve s_Swerve, Intake m_intake) { 
+    //started work for pathweaver, have to change output still
+    System.out.println("whole Shabang auto");
+    //movement part 1
+    String trajectoryJSON = "PathWeaver/output/WholeShabangCenterOne.wpilib.json";
+    Trajectory trajectory = new Trajectory();
+    
+    try {
+        Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
+        trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+    } catch (IOException ex) {
+        DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
+    };
+    // An example trajectory to follow.  All units in meters.
+    Trajectory Trajectory = trajectory;
+    
+    var thetaController =
+    new ProfiledPIDController(Constants.AutoConstants.kPThetaController, 0, 0, Constants.AutoConstants.kThetaControllerConstraints);
+    thetaController.enableContinuousInput(-Math.PI, Math.PI);
+        
+    SwerveControllerCommand swerveControllerCommand =
+    new SwerveControllerCommand(
+        Trajectory,
+        s_Swerve::getPose,
+        Constants.Swerve.swerveKinematics,
+        new PIDController(Constants.AutoConstants.kPXController, 0, 0),
+        new PIDController(Constants.AutoConstants.kPYController, 0, 0),
+        thetaController,
+        s_Swerve::setModuleStates,
+        s_Swerve
+    );
+        
+    //movement part 2
+    String trajectoryJSON2 = "PathWeaver/output/WholeShabangCenterTwo.wpilib.json"; 
+    Trajectory trajectory2 = new Trajectory();
+        
+    try {
+        Path trajectoryPath2 = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON2);
+        trajectory2 = TrajectoryUtil.fromPathweaverJson(trajectoryPath2);
+    } catch (IOException ex) {
+        DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON2, ex.getStackTrace());
+    };
+    
+    Trajectory Trajectory2 = trajectory2;
                 
+    var thetaController2 =
+    new ProfiledPIDController(Constants.AutoConstants.kPThetaController, 0, 0, Constants.AutoConstants.kThetaControllerConstraints);
+    thetaController.enableContinuousInput(-Math.PI, Math.PI);
+        
+    SwerveControllerCommand swerveControllerCommand2 =
+    new SwerveControllerCommand(
+        Trajectory2,
+        s_Swerve::getPose,
+        Constants.Swerve.swerveKinematics,
+        new PIDController(Constants.AutoConstants.kPXController, 0, 0),
+        new PIDController(Constants.AutoConstants.kPYController, 0, 0),
+        thetaController2,
+        s_Swerve::setModuleStates,
+        s_Swerve
+    );
+
+    addCommands(
+        new InstantCommand(() -> s_Swerve.resetOdometry(Trajectory.getInitialPose())),
+        new IntakeCommand(m_intake, 0.75, 1.0),
+        swerveControllerCommand, 
+        new DelayCommand(.5),
+        new InstantCommand(() -> s_Swerve.resetOdometry(Trajectory2.getInitialPose())),
+        swerveControllerCommand2,
+        new BalanceCommand(s_Swerve, 1),
+        new BalanceCommand(s_Swerve, 2)
+    );
+}
+    
 public void sampleAuto(Swerve s_Swerve) {
     TrajectoryConfig config =
         new TrajectoryConfig(
@@ -64,144 +188,29 @@ public void sampleAuto(Swerve s_Swerve) {
             List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
             // End 3 meters straight ahead of where we started, facing forward
             new Pose2d(3, 0, new Rotation2d(0)),
-            config);
-            
-            var thetaController =
-            new ProfiledPIDController(
-                Constants.AutoConstants.kPThetaController, 0, 0, Constants.AutoConstants.kThetaControllerConstraints);
-                thetaController.enableContinuousInput(-Math.PI, Math.PI);
-                
-                SwerveControllerCommand swerveControllerCommand =
-                new SwerveControllerCommand(
-                    exampleTrajectory,
-                    s_Swerve::getPose,
-                    Constants.Swerve.swerveKinematics,
-                    new PIDController(Constants.AutoConstants.kPXController, 0, 0),
-                    new PIDController(Constants.AutoConstants.kPYController, 0, 0),
-                    thetaController,
-                    s_Swerve::setModuleStates,
-                    s_Swerve);
-                    
-                    
-                    addCommands(
-                        new InstantCommand(() -> s_Swerve.resetOdometry(exampleTrajectory.getInitialPose())),
-                        swerveControllerCommand
-                        );
-                    }
-                    
-                    
-        public void movementAuto(Swerve s_Swerve, Intake m_intake) {
-        System.out.println("move auto");
-
-        
-        String trajectoryJSON = "PathWeaver/output/WholeShabangCenterOne.wpilib.json";
-        Trajectory trajectory = new Trajectory();
-        
-        try {
-            Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
-            trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
-            System.out.println("Path " + trajectoryPath);
-        } catch (IOException ex) {
-            DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
-        };
-        // An example trajectory to follow.  All units in meters.
-        Trajectory Trajectory = trajectory;
-        
-        var thetaController =
-        new ProfiledPIDController(
-            Constants.AutoConstants.kPThetaController, 0, 0, Constants.AutoConstants.kThetaControllerConstraints);
-            thetaController.enableContinuousInput(-Math.PI, Math.PI);
-            
-            SwerveControllerCommand swerveControllerCommand =
-            new SwerveControllerCommand(
-                Trajectory,
-                s_Swerve::getPose,
-                Constants.Swerve.swerveKinematics,
-                new PIDController(Constants.AutoConstants.kPXController, 0, 0),
-                new PIDController(Constants.AutoConstants.kPYController, 0, 0),
-                thetaController,
-                s_Swerve::setModuleStates,
-                s_Swerve);
-                
-                addCommands(
-                    new InstantCommand(() -> s_Swerve.resetOdometry(Trajectory.getInitialPose())),
-                    new IntakeCommand(m_intake, 0.75, 1.0),
-            swerveControllerCommand
-            );
-        }
-        
-        public void wholeShabangCenterAuto(Swerve s_Swerve, Intake m_intake) { 
-            //started work for pathweaver, have to change output still
-            System.out.println("whole Shabang auto");
-            //movement part 1
-            String trajectoryJSON = "PathWeaver/output/WholeShabangCenterOne.wpilib.json";
-            Trajectory trajectory = new Trajectory();
-            
-            try {
-                Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
-                trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
-            } catch (IOException ex) {
-                DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
-            };
-            // An example trajectory to follow.  All units in meters.
-            Trajectory Trajectory = trajectory;
-            
-            var thetaController =
-            new ProfiledPIDController(
-                Constants.AutoConstants.kPThetaController, 0, 0, Constants.AutoConstants.kThetaControllerConstraints);
-                thetaController.enableContinuousInput(-Math.PI, Math.PI);
-                
-                SwerveControllerCommand swerveControllerCommand =
-                new SwerveControllerCommand(
-                    Trajectory,
-                s_Swerve::getPose,
-                Constants.Swerve.swerveKinematics,
-                new PIDController(Constants.AutoConstants.kPXController, 0, 0),
-                new PIDController(Constants.AutoConstants.kPYController, 0, 0),
-                thetaController,
-                s_Swerve::setModuleStates,
-                s_Swerve);
-                
-                
-                //movement part 2
-                String trajectoryJSON2 = "PathWeaver/output/WholeShabangCenterTwo.wpilib.json"; 
-                Trajectory trajectory2 = new Trajectory();
-                
-            try {
-                Path trajectoryPath2 = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON2);
-                trajectory2 = TrajectoryUtil.fromPathweaverJson(trajectoryPath2);
-            } catch (IOException ex) {
-                DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON2, ex.getStackTrace());
-            };
-            
-            Trajectory Trajectory2 = trajectory2;
-                        
-            var thetaController2 =
-            new ProfiledPIDController(
-                Constants.AutoConstants.kPThetaController, 0, 0, Constants.AutoConstants.kThetaControllerConstraints);
-                thetaController.enableContinuousInput(-Math.PI, Math.PI);
-                
-            SwerveControllerCommand swerveControllerCommand2 =
-            new SwerveControllerCommand(
-                Trajectory2,
-                s_Swerve::getPose,
-                Constants.Swerve.swerveKinematics,
-                new PIDController(Constants.AutoConstants.kPXController, 0, 0),
-                new PIDController(Constants.AutoConstants.kPYController, 0, 0),
-                thetaController2,
-                s_Swerve::setModuleStates,
-                    s_Swerve);
-
-
-        addCommands(
-            new InstantCommand(() -> s_Swerve.resetOdometry(Trajectory.getInitialPose())),
-            new IntakeCommand(m_intake, 0.75, 1.0),
-            swerveControllerCommand, 
-            new DelayCommand(.5),
-            new InstantCommand(() -> s_Swerve.resetOdometry(Trajectory2.getInitialPose())),
-            swerveControllerCommand2,
-            new BalanceCommand(s_Swerve, 1),
-            new BalanceCommand(s_Swerve, 2)
+            config
         );
-    }
+
+    var thetaController =
+    new ProfiledPIDController(Constants.AutoConstants.kPThetaController, 0, 0, Constants.AutoConstants.kThetaControllerConstraints);
+    thetaController.enableContinuousInput(-Math.PI, Math.PI);
+                
+    SwerveControllerCommand swerveControllerCommand =
+        new SwerveControllerCommand(
+            exampleTrajectory,
+            s_Swerve::getPose,
+            Constants.Swerve.swerveKinematics,
+            new PIDController(Constants.AutoConstants.kPXController, 0, 0),
+            new PIDController(Constants.AutoConstants.kPYController, 0, 0),
+            thetaController,
+            s_Swerve::setModuleStates,
+            s_Swerve
+        );
+                        
+    addCommands(
+        new InstantCommand(() -> s_Swerve.resetOdometry(exampleTrajectory.getInitialPose())),
+        swerveControllerCommand
+    );
+}
+                    
 }

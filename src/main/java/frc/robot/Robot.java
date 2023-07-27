@@ -4,8 +4,6 @@
 
 package frc.robot;
 
-import frc.robot.Constants;
-
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -21,15 +19,17 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  * project.
  */
 public class Robot extends TimedRobot {
-  private static final String kDefaultAuto = "Default";
+  private static final String kDefaultAuto = "Do Nothing";
   private static final String kMoveAuto = "Move Auto";
-  private static final String kSampleAuto = "Basic Auto";
+  private static final String kSampleAuto = "Sample Auto";
   private static final String kWholeShabangCenterAuto = "Whole Shabang Center Auto";
   private String m_autoSelected;
+
   private static final String compSpeed = "Comp Motor Speed";
   private static final String demoSpeed = "Demo Motor Speed";
-  private final SendableChooser<String> m_chooser = new SendableChooser<>();
-  private final SendableChooser<String> m_chooser2 = new SendableChooser<>();
+
+  private final SendableChooser<String> m_autonChooser = new SendableChooser<>();
+  private final SendableChooser<String> m_driveSpeedchooser = new SendableChooser<>();
   Compressor phCompressor = new Compressor(3, PneumaticsModuleType.REVPH);
   public static CTREConfigs ctreConfigs;
 
@@ -43,21 +43,21 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    m_chooser.setDefaultOption("Do Nothing", kDefaultAuto);
-    m_chooser.addOption("Sample Auto", kSampleAuto);
-    m_chooser.addOption("Basic Auto", kMoveAuto);
-    m_chooser.addOption("Whole Shabang Center Auto", kWholeShabangCenterAuto);
-    SmartDashboard.putData("Auto choices", m_chooser);
+    m_autonChooser.setDefaultOption("Do Nothing", kDefaultAuto);
+    // m_autonChooser.addOption("Sample Auto", kSampleAuto);
+    m_autonChooser.addOption("Basic Auto", kMoveAuto);
+    m_autonChooser.addOption("Whole Shabang Center Auto", kWholeShabangCenterAuto);
+    SmartDashboard.putData("Auto choices", m_autonChooser);
 
-    m_chooser2.setDefaultOption("Set Comp Speed", compSpeed);
-    m_chooser2.addOption("Set Demo Speed", demoSpeed);
+    m_driveSpeedchooser.setDefaultOption("Set Comp Speed", compSpeed);
+    m_driveSpeedchooser.addOption("Set Demo Speed", demoSpeed);
     
     ctreConfigs = new CTREConfigs();
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
 
-    m_autoSelected = m_chooser2.getSelected();
+    m_autoSelected = m_driveSpeedchooser.getSelected();
     switch (m_autoSelected) {
       case compSpeed:
         Constants.Swerve.maxSpeed = 3.5;
@@ -98,7 +98,7 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     System.out.println("Autos intilized");
     int auton;
-    m_autoSelected = m_chooser.getSelected();
+    m_autoSelected = m_autonChooser.getSelected();
     switch (m_autoSelected) {
       case kDefaultAuto:
         auton = 100;
