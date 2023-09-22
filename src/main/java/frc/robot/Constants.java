@@ -17,6 +17,8 @@ public final class Constants {
         public static final int NavXId = 1;
         public static final boolean invertGyro = true; // Always ensure Gyro is CCW+ CW-
 
+        public static double SpeedMod = 0.8;
+
         public static final COTSFalconSwerveConstants chosenModule = 
             COTSFalconSwerveConstants.SDSMK4i(COTSFalconSwerveConstants.driveGearRatios.SDSMK4i_L1);
 

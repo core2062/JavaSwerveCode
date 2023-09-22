@@ -24,12 +24,14 @@ public class Robot extends TimedRobot {
   private static final String kSampleAuto = "Sample Auto";
   private static final String kWholeShabangCenterAuto = "Whole Shabang Center Auto";
   private String m_autoSelected;
+  private String m_speedSelected;
 
   private static final String compSpeed = "Comp Motor Speed";
   private static final String demoSpeed = "Demo Motor Speed";
 
   private final SendableChooser<String> m_autonChooser = new SendableChooser<>();
   private final SendableChooser<String> m_driveSpeedchooser = new SendableChooser<>();
+
   Compressor phCompressor = new Compressor(3, PneumaticsModuleType.REVPH);
   public static CTREConfigs ctreConfigs;
 
@@ -49,25 +51,14 @@ public class Robot extends TimedRobot {
     m_autonChooser.addOption("Whole Shabang Center Auto", kWholeShabangCenterAuto);
     SmartDashboard.putData("Auto choices", m_autonChooser);
 
-    m_driveSpeedchooser.setDefaultOption("Set Comp Speed", compSpeed);
-    m_driveSpeedchooser.addOption("Set Demo Speed", demoSpeed);
+    m_driveSpeedchooser.setDefaultOption("Set Demo Speed", demoSpeed);
+    m_driveSpeedchooser.addOption("Set Comp Speed", compSpeed);
+    SmartDashboard.putData("Speed chooser", m_driveSpeedchooser);
     
     ctreConfigs = new CTREConfigs();
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
-
-    m_autoSelected = m_driveSpeedchooser.getSelected();
-    switch (m_autoSelected) {
-      case compSpeed:
-        Constants.Swerve.maxSpeed = 3.5;
-        Constants.Swerve.maxAngularVelocity = 3.5;
-        break;
-      case demoSpeed:
-        Constants.Swerve.maxSpeed = 0.5;
-        Constants.Swerve.maxAngularVelocity = 0.5;
-        break;
-    }
   }
 
   /**
@@ -144,7 +135,20 @@ public class Robot extends TimedRobot {
     }
     phCompressor.enableDigital();
     System.out.println("enabling compressor");
-    
+    m_speedSelected = m_driveSpeedchooser.getSelected();
+    switch (m_speedSelected) {
+      case compSpeed:
+        Constants.Swerve.SpeedMod = 0.8;
+        System.out.println("compspeed");
+        break;
+      case demoSpeed:
+        Constants.Swerve.SpeedMod = 0.3;
+        System.out.println("demospeed");
+        break;
+      default:
+      System.out.println("default");
+        break;
+    }
   }
 
   /** This function is called periodically during operator control. */
